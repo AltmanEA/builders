@@ -6,8 +6,9 @@ fun main(){
     val div = div(
         "Hello",
         mapOf("id" to "root")
-    )
-    div.add(p("in p"))
+    ){
+        p("in p 2").toString()
+    }
 
     File("result.html").printWriter().use{
         it.print(

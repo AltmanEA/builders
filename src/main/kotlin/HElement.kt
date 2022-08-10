@@ -1,8 +1,12 @@
 class HElement(
     val name: String,
     var content: String,
-    val attributes: Map<String, String> = emptyMap()
+    val attributes: Map<String, String> = emptyMap(),
+    val builder: HElement.()->String = {""}
 ) {
+    init {
+        content += builder()
+    }
     fun add(hElement: HElement) {
         content += hElement.toString()
     }
@@ -13,9 +17,9 @@ class HElement(
         "<$name $attrs>$content</$name>"
 
     companion object {
-        fun div(content: String, attributes: Map<String, String> = emptyMap()) =
-            HElement("div", content, attributes)
-        fun p(content: String, attributes: Map<String, String> = emptyMap()) =
-            HElement("p", content, attributes)
+        fun div(content: String, attributes: Map<String, String> = emptyMap(), builder: HElement.()->String = {""}) =
+            HElement("div", content, attributes, builder)
+        fun p(content: String, attributes: Map<String, String> = emptyMap(), builder: HElement.()->String = {""}) =
+            HElement("p", content, attributes, builder)
     }
 }
