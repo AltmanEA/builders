@@ -1,0 +1,8 @@
+/.gradle/
+/.idea/
+/build/
+/gradle/
+/builders.iml
+/gradlew
+/gradlew.bat
+/result.html
