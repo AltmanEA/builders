@@ -1,25 +1,38 @@
+interface Builder{
+    var content: String
+    fun HElement.visit(){
+        this@Builder.content += result
+    }
+    operator fun String.unaryPlus(){
+        content += this
+    }
+}
+
 class HElement(
     val name: String,
-    var content: String,
     val attributes: Map<String, String> = emptyMap(),
-    val builder: HElement.()->String = {""}
-) {
+    val build: Builder.() -> Unit = {}
+) :Builder {
+    override var content = ""
     init {
-        content += builder()
+        build()
     }
-    fun add(hElement: HElement) {
-        content += hElement.toString()
-    }
-
     val attrs = attributes.toList().joinToString { "${it.first}=${it.second}" }
-
-    override fun toString()=
-        "<$name $attrs>$content</$name>"
+    val result =  "<$name $attrs>$content</$name>"
 
     companion object {
-        fun div(content: String, attributes: Map<String, String> = emptyMap(), builder: HElement.()->String = {""}) =
-            HElement("div", content, attributes, builder)
-        fun p(content: String, attributes: Map<String, String> = emptyMap(), builder: HElement.()->String = {""}) =
-            HElement("p", content, attributes, builder)
+        fun Builder.div(
+            attributes: Map<String, String> = emptyMap(),
+            build: Builder.() -> Unit = { }
+        ) =
+            HElement("div", attributes, build ).visit()
+
+        fun Builder.p(
+            attributes: Map<String, String> = emptyMap(),
+            build: Builder.() -> Unit = { }
+        ) =
+            HElement("p", attributes, build ).visit()
     }
+
+
 }
