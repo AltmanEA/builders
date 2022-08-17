@@ -1,21 +1,14 @@
 package three
 
 import printToHtml
-import three.HTMLElement.Companion.div
-import three.HTMLElement.Companion.p
 
 fun main() {
-    val element = HTMLElement("div") {
-        attributes["id"] = "root"
-        div {
-            p {
-                +"p1"
-            }
-        }
-        p {
-            +"p2"
+    val element = HTMLTag.div {
+        attribute("id", "root")
+        ul {// this: UL
+            li { +"li1" }
+            li { +"li2" }
         }
     }
-
-    printToHtml(element)
+    printToHtml(element!!)
 }

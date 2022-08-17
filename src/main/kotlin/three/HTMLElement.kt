@@ -1,37 +1,29 @@
 package three
 
-interface Builder{
-    var content: String
-    val attributes: MutableMap<String, String>
-    fun HTMLElement.visit(){
-        this@Builder.content += this.toString()
-    }
-    operator fun String.unaryPlus(){
-        content += this
-    }
-}
+import VarAttrMap
 
-class HTMLElement(
-    val name: String,
-    build: Builder.()->Unit = {}
-): Builder {
-    override var content = ""
-    override val attributes: MutableMap<String, String> = HashMap()
+open class HTMLElement(
+    name: String
+) : Node(name) {
+    val childs = arrayListOf<Node>()
+    val attributes: VarAttrMap = HashMap()
 
-    init {
-        build()
-    }
-
-    val attrs = attributes.toList().joinToString(" ") { "${it.first}=\"${it.second}\"" }
+    private val attrs
+        get() = attributes.toList()
+            .joinToString(" ") {
+                "${it.first}=\"${it.second}\""
+            }
+    private val inner
+        get() = childs
+            .joinToString("\n") { "$it" }
 
     override fun toString() =
-        "<$name $attrs>\n$content\n</$name>"
-
-    companion object {
-        fun Builder.div(build: Builder.()->Unit = {}) =
-            HTMLElement("div", build).visit()
-
-        fun Builder.p(build: Builder.()->Unit = {}) =
-            HTMLElement("p", build).visit()
-    }
+        "<$name $attrs>\n$inner\n</$name>"
 }
+
+open class Node(
+    val name: String
+) {
+    override fun toString() = name
+}
+

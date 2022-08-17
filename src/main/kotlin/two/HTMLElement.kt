@@ -1,5 +1,7 @@
 package two
 
+import VarAttrMap
+
 class HTMLElement(
     val name: String,
     val config: Config.()->Unit = {}
@@ -7,19 +9,18 @@ class HTMLElement(
     private val _config = Config().apply { config() }
 
     val attrs = _config.attributes.toList()
-        .joinToString(" ") { "${it.first}=\"${it.second}\"" }
+        .joinToString(" ") {
+            "${it.first}=\"${it.second}\""
+        }
 
     override fun toString() =
         "<$name $attrs>\n${_config.content}\n</$name>"
 
     class Config{
-        val attributes: MutableMap<String, String> = HashMap()
+        val attributes: VarAttrMap = HashMap()
         var content = ""
         fun add(hElement: HTMLElement) {
             content += hElement.toString()
-        }
-        fun add(string: String) {
-            content += string
         }
         operator fun String.unaryPlus(){
             content += this

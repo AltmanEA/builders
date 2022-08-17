@@ -1,4 +1,7 @@
-package four
+package three
+
+import AttrName
+import AttrValue
 
 class Builder {
 
@@ -18,7 +21,7 @@ class Builder {
         )
     }
 
-    fun onAttributeAdd(name: AttributeName, value: AttributeValue) {
+    fun onAttributeAdd(name: AttrName, value: AttrValue) {
         path.last().attributes[name] = value
     }
 

@@ -1,8 +1,10 @@
 package one
 
+import AttrMap
+
 class HTMLElement(
     val name: String,
-    attributes: Map<String, String> = emptyMap()
+    attributes: AttrMap = emptyMap()
 ) {
     private var content = ""
 
@@ -13,17 +15,19 @@ class HTMLElement(
         content += string
     }
 
-    val attrs = attributes.toList()
-        .joinToString(" ") { "${it.first}=\"${it.second}\"" }
+    private val attrs = attributes.toList()
+        .joinToString(" ") {
+            "${it.first}=\"${it.second}\""
+        }
 
     override fun toString() =
         "<$name $attrs>\n$content\n</$name>"
 
     companion object {
-        fun div(attributes: Map<String, String> = emptyMap()) =
+        fun div(attributes: AttrMap = emptyMap()) =
             HTMLElement("div", attributes)
 
-        fun p(attributes: Map<String, String> = emptyMap()) =
+        fun p(attributes: AttrMap = emptyMap()) =
             HTMLElement("p", attributes)
     }
 }
