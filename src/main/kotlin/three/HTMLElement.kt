@@ -22,14 +22,10 @@ class HTMLElement(
         build()
     }
 
-    val attrs = attributes.toList().joinToString { "${it.first}=${it.second}" }
+    val attrs = attributes.toList().joinToString(" ") { "${it.first}=\"${it.second}\"" }
 
     override fun toString() =
         "<$name $attrs>\n$content\n</$name>"
-
-    class Config{
-        val attributes: MutableMap<String, String> = HashMap()
-    }
 
     companion object {
         fun Builder.div(build: Builder.()->Unit = {}) =

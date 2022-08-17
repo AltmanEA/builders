@@ -4,25 +4,30 @@ class HTMLElement(
     val name: String,
     val config: Config.()->Unit = {}
 ) {
-    private val _config = Config().apply { config()}
-    private val attributes: Map<String, String> = _config.attributes
+    private val _config = Config().apply { config() }
 
-    private var content = ""
-
-    fun add(hElement: HTMLElement) {
-        content += hElement.toString()
-    }
-    fun add(string: String) {
-        content += string
-    }
-
-    val attrs = attributes.toList().joinToString { "${it.first}=${it.second}" }
+    val attrs = _config.attributes.toList()
+        .joinToString(" ") { "${it.first}=\"${it.second}\"" }
 
     override fun toString() =
-        "<$name $attrs>\n$content\n</$name>"
+        "<$name $attrs>\n${_config.content}\n</$name>"
 
     class Config{
         val attributes: MutableMap<String, String> = HashMap()
+        var content = ""
+        fun add(hElement: HTMLElement) {
+            content += hElement.toString()
+        }
+        fun add(string: String) {
+            content += string
+        }
+        operator fun String.unaryPlus(){
+            content += this
+        }
+        fun div(config: Config.()->Unit = {}) =
+            add(Companion.div(config))
+        fun p(config: Config.()->Unit = {}) =
+            add(Companion.p(config))
     }
 
     companion object {

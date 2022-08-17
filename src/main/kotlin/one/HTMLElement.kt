@@ -2,7 +2,7 @@ package one
 
 class HTMLElement(
     val name: String,
-    val attributes: Map<String, String> = emptyMap()
+    attributes: Map<String, String> = emptyMap()
 ) {
     private var content = ""
 
@@ -13,7 +13,8 @@ class HTMLElement(
         content += string
     }
 
-    val attrs = attributes.toList().joinToString { "${it.first}=${it.second}" }
+    val attrs = attributes.toList()
+        .joinToString(" ") { "${it.first}=\"${it.second}\"" }
 
     override fun toString() =
         "<$name $attrs>\n$content\n</$name>"

@@ -1,24 +1,20 @@
+package one
+
 import one.HTMLElement.Companion.div
-import one.HTMLElement.Companion.p
-import java.io.File
+import printToHtml
 
 fun main(){
-    val div1 = div(
+    val element = div(
         mapOf("id" to "root")
     )
-    val p1 = p()
-    p1.add("p content")
-    div1.add(p1)
+    val p1 = HTMLElement.p()
+    p1.add("p1")
+    val p2= HTMLElement.p()
+    p2.add("p2")
+    val p3: HTMLElement = HTMLElement.p()
+    p3.add(p1)
+    element.add(p3)
+    element.add(p2)
 
-    File("result.html").printWriter().use{
-        it.print(
-"""<html>
-<header>
-</header>
-<body>
-$div1
-</body>
-</html>"""
-        )
-    }
+    printToHtml(element)
 }
